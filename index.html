@@ -1,1 +1,238 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anime Academy Class XI</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101326;color:#f5f5ff;font-family:Arial,sans-serif}
+header{background:#202744;padding:16px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+h1{color:#ff78b7}
+button{border:0;border-radius:12px;padding:12px;background:#ff78b7;color:#17152a;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.6}
+.container{max-width:1000px;margin:auto;padding:14px}
+.panel,.hero,.lesson{background:#202744;padding:18px;border-radius:18px;margin:14px 0}
+.hero{text-align:center}
+.stats{color:#70e3ff;font-weight:bold}
+.subjects{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.subject{background:#303a5c;color:white;text-align:left}
+.subject.active{outline:2px solid #ff78b7}
+.teacher{font-size:55px}
+.concept{background:#111a30;padding:15px;border-left:4px solid #70e3ff;border-radius:10px;line-height:1.6}
+.example{background:#382c50;padding:15px;border-radius:10px;line-height:1.6}
+.answers{display:grid;gap:10px}
+.answers button{background:#354263;color:white;text-align:left}
+.answers button.correct{background:#17634e}
+.answers button.wrong{background:#803b50}
+#feedback{min-height:35px;color:#ffd36e;font-weight:bold}
+.progress{height:10px;background:#111a30;border-radius:20px;overflow:hidden}
+#bar{height:100%;width:0;background:#70e3ff}
+small{color:#bdc5df}
+@media(max-width:500px){.subjects{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+ <h2>✦ ANIME ACADEMY XI</h2>
+ <div class="stats">⚡ XP: <span id="xp">0</span> | 🏅 Level: <span id="level">1</span></div>
+ <button onclick="toggleMusic()" id="music">♫ Music OFF</button>
+</header>
+
+<div class="container">
+<section class="hero">
+ <h1>YOUR SCHOOL. YOUR STORY.</h1>
+ <p>Learn • Train • Complete Missions • Level Up</p>
+ <div class="progress"><div id="bar"></div></div>
+ <p id="progressText">100 XP to next level</p>
+</section>
+
+<section class="panel">
+ <h2>📚 Choose Your Subject</h2>
+ <div class="subjects" id="subjects"></div>
+</section>
+
+<section class="lesson">
+ <div class="teacher" id="teacher">🏫</div>
+ <small id="teacherName">ACADEMY TEACHER</small>
+ <h2 id="chapter">Welcome, Student!</h2>
+ <p id="intro">Choose a subject to start.</p>
+ <div class="concept" id="concept">Your lesson will appear here.</div>
+ <br>
+ <div class="example" id="example">💡 Real-life example</div>
+ <hr>
+ <h3>⚔️ Knowledge Challenge</h3>
+ <p id="question"></p>
+ <div class="answers" id="answers"></div>
+ <p id="feedback"></p>
+ <button id="next" onclick="nextLesson()" hidden>Next Lesson →</button>
+</section>
+<section class="panel">
+ <h3>🎯 Academy Missions</h3>
+ <p>Complete one lesson: <b id="mission1">0/1</b></p>
+ <p>Answer a quiz: <b id="mission2">0/1</b></p>
+ <p>Earn 30 XP: <b id="mission3">0/30</b></p>
+</section>
+</div>
+
+<script>
+const subjects=[
+{
+name:"Economics",icon:"📈",teacher:"👨‍🏫",teacherName:"Mr. Arjun",
+lessons:[
+{title:"Introduction to Economics",intro:"Teacher: Our wants are unlimited, but resources are limited. This is the basic problem of economics.",concept:"Scarcity means resources are limited compared with human wants. Because of scarcity, we must make choices. Opportunity Cost is the next best alternative sacrificed when making a choice.",example:"You have ₹100. You can buy a notebook or a game. If you buy the notebook, the game you gave up is your opportunity cost.",q:"The next best alternative sacrificed is called:",options:["Demand","Opportunity Cost","Supply","Utility"],answer:1,why:"Opportunity cost is the value of the next best alternative given up."},
+{title:"Central Problems of an Economy",intro:"Teacher: Every economy has to solve three important questions.",concept:"The three central problems are: What to produce? How to produce? For whom to produce? These problems arise because resources are scarce and have alternative uses.",example:"A government must decide whether to spend more money on schools or roads. This is the problem of what to produce.",q:"Which is a central problem of an economy?",options:["What to produce?","What colour to use?","Where to travel?","What to wear?"],answer:0,why:"Every economy must decide what, how and for whom to produce."}
+]},
+{
+name:"History",icon:"🏛️",teacher:"🧑‍🏫",teacherName:"Ms. Aiko",
+lessons:[
+{title:"Writing and City Life",intro:"Teacher: Let's travel to ancient Mesopotamia!",concept:"Mesopotamia was located between the Tigris and Euphrates rivers. Cities developed through agriculture, trade, craft production and administration. Cuneiform was an early writing system.",example:"Officials used written records to track goods, payments and transactions.",q:"Mesopotamia developed between which rivers?",options:["Nile and Congo","Tigris and Euphrates","Indus and Ganga","Amazon and Nile"],answer:1,why:"Mesopotamia was located between the Tigris and Euphrates rivers."},
+{title:"Sources in History",intro:"Teacher: Historians study evidence to understand the past.",concept:"Historical sources include coins, inscriptions, manuscripts, buildings, archaeological remains and oral accounts. Historians examine their context and limitations.",example:"An ancient coin can tell us about a ruler, symbols, trade and the economy.",q:"Which is an archaeological source?",options:["A recovered coin","A weather forecast","A modern opinion poll","A fictional story"],answer:0,why:"A recovered ancient coin is a material historical source."}
+]},
+{
+name:"Political Science",icon:"⚖️",teacher:"👩‍🏫",teacherName:"Ms. Hana",
+lessons:[
+{title:"Constitution: Why and How?",intro:"Teacher: A constitution is the basic rulebook of a country.",concept:"A constitution establishes rules for government, distributes powers, limits government authority and protects citizens' rights.",example:"If a government acts beyond its legal powers, constitutional rules and courts can help check it.",q:"One important purpose of a constitution is to:",options:["Give unlimited power","Limit government power","End elections","Remove all laws"],answer:1,why:"A constitution defines and limits the powers of government."},
+{title:"Rights in a Democracy",intro:"Teacher: Rights protect people's freedom and dignity.",concept:"Fundamental Rights protect individuals and support equality, liberty and justice. They also have reasonable constitutional limitations.",example:"Freedom of expression allows people to share their opinions within the limits of law.",q:"Fundamental Rights mainly help to:",options:["Protect individual freedoms","Remove courts","End equality","Give one person all power"],answer:0,why:"Rights protect individual freedoms and dignity."}
+]},
+{
+name:"English",icon:"🖋️",teacher:"👩‍🏫",teacherName:"Ms. Yuna",
+lessons:[
+{title:"Reading for Meaning",intro:"Teacher: Good readers understand the central idea of a passage.",concept:"The central idea is the main point of a passage. Supporting details explain or prove that idea.",example:"A passage about trees cooling cities may have the central idea that trees provide environmental benefits.",q:"A supporting detail:",options:["Changes the topic","Explains the main idea","Has no connection","Always gives a date"],answer:1,why:"Supporting details develop or explain the central idea."},
+{title:"Writing a Notice",intro:"Teacher: A notice should be short, clear and informative.",concept:"A notice generally includes the institution name, NOTICE, date, heading, important details and the issuer's name and designation.",example:"For a school debate notice, include the topic, date, time, venue and eligibility.",q:"A good notice should be:",options:["Long and emotional","Brief and informative","A personal diary","Without a date"],answer:1,why:"A notice communicates essential information briefly."}
+]},
+{
+name:"Hindi",icon:"📖",teacher:"👨‍🏫",teacherName:"श्री देव",
+lessons:[
+{title:"अभिव्यक्ति और माध्यम",intro:"शिक्षक: अच्छा लेखन वही है जो स्पष्ट और उद्देश्यपूर्ण हो।",concept:"औपचारिक लेखन में विषय, भाषा, संरचना और पाठक का ध्यान रखा जाता है। सूचना संक्षिप्त होती है, भाषण में संबोधन और विचार होते हैं।",example:"विद्यालय की प्रतियोगिता की सूचना में तारीख, समय, स्थान और विषय स्पष्ट लिखें।",q:"सूचना की भाषा कैसी होनी चाहिए?",options:["लंबी और अस्पष्ट","संक्षिप्त और स्पष्ट","केवल भावुक","बिना जानकारी वाली"],answer:1,why:"सूचना संक्षिप्त, स्पष्ट और तथ्यात्मक होनी चाहिए।"},
+{title:"सार लेखन",intro:"शिक्षक: सार में मूल भाव बचता है और अनावश्यक विस्तार हट जाता है।",concept:"सार लेखन में मूल अनुच्छेद के मुख्य विचारों को अपने शब्दों में संक्षेप में लिखा जाता है।",example:"लंबे अनुच्छेद के मुख्य विचार 3–4 वाक्यों में लिखना सार लेखन का अभ्यास है।",q:"सार लेखन में किसे प्राथमिकता दी जाती है?",options:["मुख्य विचार","हर उदाहरण","दोहराव","नई कहानी"],answer:0,why:"सार में मुख्य विचार रखे जाते हैं।"}
+]},
+{
+name:"Physical Education",icon:"🏃",teacher:"🏅",teacherName:"Coach Ren",
+lessons:[
+{title:"Changing Trends in Sports",intro:"Coach: Sports develop when knowledge, technology and training improve.",concept:"Modern sports use scientific training, performance analysis, improved equipment, sports medicine and better facilities.",example:"Video analysis helps a coach review an athlete's technique.",q:"Video analysis in sports is mainly used to:",options:["Review performance","Replace all practice","Guarantee victory","Remove rules"],answer:0,why:"Video analysis helps review technique and performance."},
+{title:"Physical Fitness",intro:"Coach: Fitness is a combination of several abilities.",concept:"Health-related fitness includes cardiorespiratory endurance, muscular strength, muscular endurance, flexibility and body composition. Skill-related fitness includes agility, balance, coordination, power, reaction time and speed.",example:"A basketball player uses agility to change direction and coordination to control the ball.",q:"The ability to change direction quickly is:",options:["Flexibility","Agility","Body composition","Muscular endurance"],answer:1,why:"Agility is the ability to change direction efficiently."}
+]}
+];
+
+let current=0,chapter=0,xp=Number(localStorage.getItem("animeXP")||0);
+let answered=false,lessonDone=false,quizDone=false;
+let completed=JSON.parse(localStorage.getItem("animeDone")||"{}");
+let audio=null;
+
+function updateStats(){
+ document.getElementById("xp").textContent=xp;
+ document.getElementById("level").textContent=Math.floor(xp/100)+1;
+ document.getElementById("bar").style.width=(xp%100)+"%";
+ document.getElementById("progressText").textContent=(100-xp%100)+" XP to next level";
+ document.getElementById("mission1").textContent=lessonDone?"1/1":"0/1";
+ document.getElementById("mission2").textContent=quizDone?"1/1":"0/1";
+ document.getElementById("mission3").textContent=Math.min(xp,30)+"/30";
+ localStorage.setItem("animeXP",xp);
+ localStorage.setItem("animeDone",JSON.stringify(completed));
+}
+
+function drawSubjects(){
+ const box=document.getElementById("subjects");
+ box.innerHTML="";
+ subjects.forEach((s,i)=>{
+  let b=document.createElement("button");
+  b.className="subject"+(i===current?" active":"");
+  b.textContent=s.icon+" "+s.name;
+  b.onclick=()=>{current=i;chapter=0;drawSubjects();renderLesson()};
+  box.appendChild(b);
+ });
+}
+
+function renderLesson(){
+ let s=subjects[current],l=s.lessons[chapter];
+ answered=false;
+ lessonDone=false;
+ document.getElementById("teacher").textContent=s.teacher;
+ document.getElementById("teacherName").textContent=s.teacherName;
+ document.getElementById("chapter").textContent=l.title;
+ document.getElementById("intro").textContent=l.intro;
+ document.getElementById("concept").textContent="🧠 "+l.concept;
+ document.getElementById("example").textContent="💡 "+l.example;
+ document.getElementById("question").textContent=l.q;
+ document.getElementById("feedback").textContent="";
+ document.getElementById("next").hidden=true;
+
+ const box=document.getElementById("answers");
+ box.innerHTML="";
+ l.options.forEach((option,i)=>{
+  let b=document.createElement("button");
+  b.textContent=String.fromCharCode(65+i)+". "+option;
+  b.onclick=()=>answer(i);
+  box.appendChild(b);
+ });
+ updateStats();
+}
+
+function answer(choice){
+ if(answered)return;
+ answered=true;
+ let l=subjects[current].lessons[chapter];
+ let buttons=document.querySelectorAll(".answers button");
+ buttons.forEach((b,i)=>{
+  b.disabled=true;
+  if(i===l.answer)b.classList.add("correct");
+  if(i===choice&&i!==l.answer)b.classList.add("wrong");
+ });
+ if(choice===l.answer){
+  xp+=20;
+  quizDone=true;
+  document.getElementById("feedback").textContent="✨ Correct! +20 XP. "+l.why;
+ }else{
+  document.getElementById("feedback").textContent="Not quite. "+l.why;
+ }
+ let key=current+"-"+chapter;
+ if(!completed[key]){
+  completed[key]=true;
+  xp+=10;
+  lessonDone=true;
+  document.getElementById("feedback").textContent+=" Lesson completed! +10 XP.";
+ }
+ document.getElementById("next").hidden=false;
+ updateStats();
+}
+
+function nextLesson(){
+ chapter=(chapter+1)%subjects[current].lessons.length;
+ renderLesson();
+}
+
+function toggleMusic(){
+ try{
+  if(!audio){
+   audio=new(window.AudioContext||window.webkitAudioContext)();
+   let oscillator=audio.createOscillator();
+   let gain=audio.createGain();
+   oscillator.type="sine";
+   oscillator.frequency.value=220;
+   gain.gain.value=.018;
+   oscillator.connect(gain);
+   gain.connect(audio.destination);
+   oscillator.start();
+   document.getElementById("music").textContent="♫ Music ON";
+   audio.osc=oscillator;
+  }else if(audio.state==="running"){
+   audio.suspend();
+   document.getElementById("music").textContent="♫ Music OFF";
+  }else{
+   audio.resume();
+   document.getElementById("music").textContent="♫ Music ON";
+  }
+ }catch(e){
+  document.getElementById("music").textContent="Music unavailable";
+ }
+}
+
+drawSubjects();
+renderLesson();
+updateStats();
+</script>
+</body>
+   </html>
+  
