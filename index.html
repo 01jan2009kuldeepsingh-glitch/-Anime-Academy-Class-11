@@ -3,236 +3,1192 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Anime Academy Class XI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101326">
+<title>Anime Academy | Class 11</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#101326;color:#f5f5ff;font-family:Arial,sans-serif}
-header{background:#202744;padding:16px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-h1{color:#ff78b7}
-button{border:0;border-radius:12px;padding:12px;background:#ff78b7;color:#17152a;font-weight:bold;cursor:pointer}
-button:disabled{opacity:.6}
-.container{max-width:1000px;margin:auto;padding:14px}
-.panel,.hero,.lesson{background:#202744;padding:18px;border-radius:18px;margin:14px 0}
-.hero{text-align:center}
-.stats{color:#70e3ff;font-weight:bold}
-.subjects{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.subject{background:#303a5c;color:white;text-align:left}
-.subject.active{outline:2px solid #ff78b7}
-.teacher{font-size:55px}
-.concept{background:#111a30;padding:15px;border-left:4px solid #70e3ff;border-radius:10px;line-height:1.6}
-.example{background:#382c50;padding:15px;border-radius:10px;line-height:1.6}
-.answers{display:grid;gap:10px}
-.answers button{background:#354263;color:white;text-align:left}
-.answers button.correct{background:#17634e}
-.answers button.wrong{background:#803b50}
-#feedback{min-height:35px;color:#ffd36e;font-weight:bold}
-.progress{height:10px;background:#111a30;border-radius:20px;overflow:hidden}
-#bar{height:100%;width:0;background:#70e3ff}
-small{color:#bdc5df}
-@media(max-width:500px){.subjects{grid-template-columns:1fr}}
+:root {
+  --bg:#0b0d19;
+  --panel:#15192b;
+  --panel2:#1c2238;
+  --text:#f4f5ff;
+  --muted:#aeb5d1;
+  --purple:#9b7bff;
+  --cyan:#63e6e2;
+  --gold:#ffd166;
+  --green:#76e3a5;
+  --red:#ff8295;
+}
+
+* {
+  box-sizing:border-box;
+}
+
+body {
+  margin:0;
+  background:radial-gradient(circle at 15% 0%,#25204b 0,transparent 35%),var(--bg);
+  color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,sans-serif;
+}
+
+header {
+  padding:22px 16px 16px;
+  background:#11152aee;
+  border-bottom:1px solid #ffffff18;
+  position:sticky;
+  top:0;
+  z-index:5;
+  backdrop-filter:blur(12px);
+}
+
+.wrap {
+  max-width:1050px;
+  margin:auto;
+}
+
+.top {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.brand {
+  font-weight:900;
+  letter-spacing:.5px;
+  font-size:20px;
+}
+
+.brand span {
+  color:var(--cyan);
+}
+
+.tag {
+  color:var(--muted);
+  font-size:12px;
+  margin-top:3px;
+}
+
+.stats {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.pill {
+  background:#252b45;
+  border:1px solid #ffffff17;
+  padding:8px 11px;
+  border-radius:12px;
+  font-size:13px;
+}
+
+main {
+  max-width:1050px;
+  margin:auto;
+  padding:18px 14px 60px;
+}
+
+.hero {
+  padding:22px;
+  border-radius:22px;
+  background:linear-gradient(120deg,#35276b,#173c57);
+  border:1px solid #ffffff22;
+  margin-bottom:16px;
+}
+
+.hero h1 {
+  margin:0 0 7px;
+  font-size:clamp(24px,5vw,38px);
+}
+
+.hero p {
+  margin:0;
+  color:#e2e5ff;
+  line-height:1.5;
+}
+
+.progress {
+  height:9px;
+  background:#ffffff24;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:15px;
+}
+
+.progress>div {
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,var(--cyan),var(--purple));
+  transition:.3s;
+}
+
+.tabs {
+  display:flex;
+  gap:8px;
+  overflow:auto;
+  padding:4px 0 13px;
+}
+
+.tab,button,select {
+  font:inherit;
+}
+
+.tab {
+  white-space:nowrap;
+  border:1px solid #ffffff20;
+  background:var(--panel);
+  color:var(--muted);
+  padding:10px 14px;
+  border-radius:12px;
+  cursor:pointer;
+}
+
+.tab.active {
+  background:#443478;
+  color:white;
+  border-color:#a88cff;
+}
+
+.layout {
+  display:grid;
+  grid-template-columns:270px 1fr;
+  gap:15px;
+}
+
+.card {
+  background:linear-gradient(160deg,var(--panel),#111525);
+  border:1px solid #ffffff18;
+  border-radius:18px;
+  padding:16px;
+  box-shadow:0 10px 30px #0002;
+}
+
+h2,h3 {
+  margin:0 0 10px;
+}
+
+h2 {
+  font-size:20px;
+}
+
+h3 {
+  font-size:16px;
+}
+
+.muted {
+  color:var(--muted);
+}
+
+.small {
+  font-size:13px;
+  line-height:1.5;
+}
+
+.subject {
+  width:100%;
+  text-align:left;
+  margin:5px 0;
+  padding:12px;
+  border-radius:12px;
+  background:var(--panel2);
+  border:1px solid transparent;
+  color:var(--text);
+  cursor:pointer;
+}
+
+.subject.active {
+  border-color:var(--purple);
+  background:#30284f;
+}
+
+.subject b {
+  display:block;
+}
+
+.subject small {
+  color:var(--muted);
+}
+
+.lesson-list {
+  display:grid;
+  gap:7px;
+  margin-top:10px;
+}
+
+.lesson-btn {
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  text-align:left;
+  background:#20263c;
+  color:var(--text);
+  border:1px solid #ffffff12;
+  border-radius:10px;
+  padding:10px;
+  cursor:pointer;
+}
+
+.lesson-btn.active {
+  border-color:var(--cyan);
+}
+
+.done {
+  color:var(--green);
+}
+
+.content {
+  min-width:0;
+}
+
+.teacher {
+  display:flex;
+  gap:12px;
+  align-items:center;
+  padding:13px;
+  background:#222945;
+  border-radius:14px;
+  margin-bottom:14px;
+}
+
+.avatar {
+  width:49px;
+  height:49px;
+  display:grid;
+  place-items:center;
+  border-radius:15px;
+  background:linear-gradient(140deg,#8b68ff,#38c9c9);
+  font-size:26px;
+  flex:none;
+}
+
+.teacher p {
+  margin:3px 0 0;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.section {
+  padding:14px;
+  border-radius:14px;
+  background:#1a2034;
+  margin:11px 0;
+  border-left:3px solid var(--purple);
+}
+
+.section.example {
+  border-color:var(--cyan);
+}
+
+.section.exam {
+  border-color:var(--gold);
+}
+
+.section h3 {
+  margin-bottom:7px;
+}
+
+.section p {
+  margin:0;
+  line-height:1.6;
+  color:#e4e7f7;
+}
+
+.actions {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+
+.btn {
+  border:0;
+  border-radius:11px;
+  padding:11px 15px;
+  background:var(--purple);
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.btn.secondary {
+  background:#29314d;
+  color:var(--text);
+  border:1px solid #ffffff20;
+}
+
+.btn:disabled {
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+.quiz {
+  margin-top:15px;
+  border:1px solid #ffffff20;
+  border-radius:15px;
+  padding:15px;
+  background:#111728;
+}
+
+.option {
+  display:block;
+  width:100%;
+  text-align:left;
+  margin:8px 0;
+  padding:11px;
+  border:1px solid #ffffff20;
+  border-radius:10px;
+  background:#20263c;
+  color:var(--text);
+  cursor:pointer;
+}
+
+.option:hover {
+  border-color:var(--cyan);
+}
+
+.option.correct {
+  border-color:var(--green);
+  background:#163b32;
+}
+
+.option.wrong {
+  border-color:var(--red);
+  background:#452330;
+}
+
+.feedback {
+  min-height:24px;
+  margin-top:10px;
+  font-size:14px;
+}
+
+.mission {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px;
+  background:#20263c;
+  border-radius:12px;
+  margin:8px 0;
+}
+
+.badge {
+  display:inline-block;
+  padding:4px 8px;
+  border-radius:20px;
+  background:#3b315e;
+  color:#d9ceff;
+  font-size:11px;
+}
+
+footer {
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  padding:25px;
+}
+
+@media(max-width:720px) {
+  .layout {
+    grid-template-columns:1fr;
+  }
+
+  .sidebar {
+    order:2;
+  }
+
+  .content {
+    order:1;
+  }
+
+  header {
+    position:relative;
+  }
+
+  .hero {
+    padding:18px;
+  }
+}
 </style>
 </head>
+
 <body>
+
 <header>
- <h2>✦ ANIME ACADEMY XI</h2>
- <div class="stats">⚡ XP: <span id="xp">0</span> | 🏅 Level: <span id="level">1</span></div>
- <button onclick="toggleMusic()" id="music">♫ Music OFF</button>
+<div class="wrap top">
+  <div>
+    <div class="brand">⚔️ ANIME <span>ACADEMY</span></div>
+    <div class="tag">CLASS 11 • YOUR EXAM TRAINING ARC</div>
+  </div>
+
+  <div class="stats">
+    <div class="pill">⭐ XP: <b id="xp">0</b></div>
+    <div class="pill">🏆 Level: <b id="level">1</b></div>
+    <div class="pill">📚 Done: <b id="completed">0</b></div>
+  </div>
+</div>
 </header>
 
-<div class="container">
+<main>
+
 <section class="hero">
- <h1>YOUR SCHOOL. YOUR STORY.</h1>
- <p>Learn • Train • Complete Missions • Level Up</p>
- <div class="progress"><div id="bar"></div></div>
- <p id="progressText">100 XP to next level</p>
+  <h1>Welcome, Scholar!</h1>
+  <p>Your academy journey starts now. Learn concepts, understand real-life examples, practise competency questions and earn XP. Small daily progress beats last-minute panic.</p>
+
+  <div class="progress">
+    <div id="progressBar"></div>
+  </div>
+
+  <div class="small" style="margin-top:7px" id="progressText">
+    0% academy completed
+  </div>
 </section>
 
-<section class="panel">
- <h2>📚 Choose Your Subject</h2>
- <div class="subjects" id="subjects"></div>
-</section>
+<nav class="tabs">
+  <button class="tab active" data-page="learn">📖 Classroom</button>
+  <button class="tab" data-page="missions">🎯 Missions</button>
+  <button class="tab" data-page="mistakes">🧠 Mistake Notebook</button>
+  <button class="tab" data-page="about">ℹ️ About</button>
+</nav>
 
-<section class="lesson">
- <div class="teacher" id="teacher">🏫</div>
- <small id="teacherName">ACADEMY TEACHER</small>
- <h2 id="chapter">Welcome, Student!</h2>
- <p id="intro">Choose a subject to start.</p>
- <div class="concept" id="concept">Your lesson will appear here.</div>
- <br>
- <div class="example" id="example">💡 Real-life example</div>
- <hr>
- <h3>⚔️ Knowledge Challenge</h3>
- <p id="question"></p>
- <div class="answers" id="answers"></div>
- <p id="feedback"></p>
- <button id="next" onclick="nextLesson()" hidden>Next Lesson →</button>
-</section>
-<section class="panel">
- <h3>🎯 Academy Missions</h3>
- <p>Complete one lesson: <b id="mission1">0/1</b></p>
- <p>Answer a quiz: <b id="mission2">0/1</b></p>
- <p>Earn 30 XP: <b id="mission3">0/30</b></p>
-</section>
+<div id="learnPage" class="layout">
+
+<aside class="card sidebar">
+  <h2>Subjects</h2>
+  <p class="muted small">Choose your class 11 subject.</p>
+
+  <div id="subjects"></div>
+
+  <hr style="border-color:#ffffff18;margin:15px 0">
+
+  <h3>Chapter / Lesson Map</h3>
+  <div class="lesson-list" id="lessons"></div>
+</aside>
+
+<section class="card content" id="lessonContent"></section>
+
 </div>
 
+<section class="card" id="missionsPage" hidden>
+  <h2>🎯 Academy Missions</h2>
+  <p class="muted small">Complete lessons and quizzes to clear your weekly training arc.</p>
+  <div id="missionList"></div>
+</section>
+
+<section class="card" id="mistakesPage" hidden>
+  <h2>🧠 Mistake Notebook</h2>
+  <p class="muted small">Questions you answer incorrectly appear here so you can revise them.</p>
+  <div id="mistakeList"></div>
+</section>
+
+<section class="card" id="aboutPage" hidden>
+  <h2>About this Academy</h2>
+  <p class="small muted">
+    This is an offline-friendly starter learning game for Class 11.
+    Your XP, completed lessons and mistake notebook are saved in this browser on this device.
+  </p>
+  <p class="small">
+    The included lessons are starter modules, not the complete CBSE textbook syllabus yet.
+    Use your current school syllabus and textbook as the final authority.
+    More chapters can be added lesson-by-lesson.
+  </p>
+  <button class="btn secondary" onclick="resetProgress()">Reset all progress</button>
+</section>
+
+</main>
+
+<footer>
+ANIME ACADEMY • STUDY SMART • LEVEL UP EVERY DAY
+</footer>
+
 <script>
-const subjects=[
+
+const courses = [
+
 {
-name:"Economics",icon:"📈",teacher:"👨‍🏫",teacherName:"Mr. Arjun",
+id:"eco",
+name:"Economics",
+icon:"📈",
+teacher:"Aki",
+role:"Economics mentor",
+
 lessons:[
-{title:"Introduction to Economics",intro:"Teacher: Our wants are unlimited, but resources are limited. This is the basic problem of economics.",concept:"Scarcity means resources are limited compared with human wants. Because of scarcity, we must make choices. Opportunity Cost is the next best alternative sacrificed when making a choice.",example:"You have ₹100. You can buy a notebook or a game. If you buy the notebook, the game you gave up is your opportunity cost.",q:"The next best alternative sacrificed is called:",options:["Demand","Opportunity Cost","Supply","Utility"],answer:1,why:"Opportunity cost is the value of the next best alternative given up."},
-{title:"Central Problems of an Economy",intro:"Teacher: Every economy has to solve three important questions.",concept:"The three central problems are: What to produce? How to produce? For whom to produce? These problems arise because resources are scarce and have alternative uses.",example:"A government must decide whether to spend more money on schools or roads. This is the problem of what to produce.",q:"Which is a central problem of an economy?",options:["What to produce?","What colour to use?","Where to travel?","What to wear?"],answer:0,why:"Every economy must decide what, how and for whom to produce."}
-]},
+
 {
-name:"History",icon:"🏛️",teacher:"🧑‍🏫",teacherName:"Ms. Aiko",
-lessons:[
-{title:"Writing and City Life",intro:"Teacher: Let's travel to ancient Mesopotamia!",concept:"Mesopotamia was located between the Tigris and Euphrates rivers. Cities developed through agriculture, trade, craft production and administration. Cuneiform was an early writing system.",example:"Officials used written records to track goods, payments and transactions.",q:"Mesopotamia developed between which rivers?",options:["Nile and Congo","Tigris and Euphrates","Indus and Ganga","Amazon and Nile"],answer:1,why:"Mesopotamia was located between the Tigris and Euphrates rivers."},
-{title:"Sources in History",intro:"Teacher: Historians study evidence to understand the past.",concept:"Historical sources include coins, inscriptions, manuscripts, buildings, archaeological remains and oral accounts. Historians examine their context and limitations.",example:"An ancient coin can tell us about a ruler, symbols, trade and the economy.",q:"Which is an archaeological source?",options:["A recovered coin","A weather forecast","A modern opinion poll","A fictional story"],answer:0,why:"A recovered ancient coin is a material historical source."}
-]},
+title:"Introduction to Economics",
+topic:"What is Economics?",
+
+concept:"Economics studies how people use limited resources to satisfy many wants. Because resources such as time, money and raw materials are limited, people must make choices.",
+
+example:"If you have ₹100 and want both a notebook and a snack, you must decide how to use the limited money. That choice is an economic decision.",
+
+exam:"Remember three ideas: unlimited wants, scarce resources and alternative uses. A good answer explains why choice is necessary.",
+
+question:"The basic economic problem exists because:",
+
+options:[
+"Wants are limited",
+"Resources are scarce and have alternative uses",
+"Money has no value",
+"All goods are free"
+],
+
+answer:1,
+
+why:"Scarcity and alternative uses of resources make choice necessary."
+},
+
 {
-name:"Political Science",icon:"⚖️",teacher:"👩‍🏫",teacherName:"Ms. Hana",
-lessons:[
-{title:"Constitution: Why and How?",intro:"Teacher: A constitution is the basic rulebook of a country.",concept:"A constitution establishes rules for government, distributes powers, limits government authority and protects citizens' rights.",example:"If a government acts beyond its legal powers, constitutional rules and courts can help check it.",q:"One important purpose of a constitution is to:",options:["Give unlimited power","Limit government power","End elections","Remove all laws"],answer:1,why:"A constitution defines and limits the powers of government."},
-{title:"Rights in a Democracy",intro:"Teacher: Rights protect people's freedom and dignity.",concept:"Fundamental Rights protect individuals and support equality, liberty and justice. They also have reasonable constitutional limitations.",example:"Freedom of expression allows people to share their opinions within the limits of law.",q:"Fundamental Rights mainly help to:",options:["Protect individual freedoms","Remove courts","End equality","Give one person all power"],answer:0,why:"Rights protect individual freedoms and dignity."}
-]},
+title:"Central Problems of an Economy",
+topic:"What, how and for whom to produce?",
+
+concept:"Every economy faces three central problems: what goods and services to produce, how to produce them, and for whom to produce them. These arise because resources are scarce.",
+
+example:"A country may choose to produce more hospitals or more luxury cars (what), use labour-intensive or machine-intensive methods (how), and decide how output is distributed (for whom).",
+
+exam:"Write all three questions clearly and connect each one with scarcity of resources.",
+
+question:"Which is NOT a central problem of an economy?",
+
+options:[
+"What to produce",
+"How to produce",
+"For whom to produce",
+"Where to celebrate"
+],
+
+answer:3,
+
+why:"The three central problems are what, how and for whom to produce."
+},
+
 {
-name:"English",icon:"🖋️",teacher:"👩‍🏫",teacherName:"Ms. Yuna",
-lessons:[
-{title:"Reading for Meaning",intro:"Teacher: Good readers understand the central idea of a passage.",concept:"The central idea is the main point of a passage. Supporting details explain or prove that idea.",example:"A passage about trees cooling cities may have the central idea that trees provide environmental benefits.",q:"A supporting detail:",options:["Changes the topic","Explains the main idea","Has no connection","Always gives a date"],answer:1,why:"Supporting details develop or explain the central idea."},
-{title:"Writing a Notice",intro:"Teacher: A notice should be short, clear and informative.",concept:"A notice generally includes the institution name, NOTICE, date, heading, important details and the issuer's name and designation.",example:"For a school debate notice, include the topic, date, time, venue and eligibility.",q:"A good notice should be:",options:["Long and emotional","Brief and informative","A personal diary","Without a date"],answer:1,why:"A notice communicates essential information briefly."}
-]},
+title:"Opportunity Cost",
+topic:"The next best alternative sacrificed",
+
+concept:"Opportunity cost is the value of the next best alternative that is given up when a choice is made. It reminds us that every choice has a cost.",
+
+example:"If you spend one hour watching a show instead of studying, the study time is the opportunity you gave up.",
+
+exam:"Do not write that opportunity cost means money paid. It can be the value of any next-best alternative.",
+
+question:"You choose to study instead of playing football. The opportunity cost is:",
+
+options:[
+"The value of the next best alternative given up",
+"The price of your book only",
+"Every option together",
+"Zero in every case"
+],
+
+answer:0,
+
+why:"Opportunity cost is the value of the next best alternative sacrificed."
+}
+
+]
+},
+
 {
-name:"Hindi",icon:"📖",teacher:"👨‍🏫",teacherName:"श्री देव",
+id:"history",
+name:"History",
+icon:"🏛️",
+teacher:"Ren",
+role:"History mentor",
+
 lessons:[
-{title:"अभिव्यक्ति और माध्यम",intro:"शिक्षक: अच्छा लेखन वही है जो स्पष्ट और उद्देश्यपूर्ण हो।",concept:"औपचारिक लेखन में विषय, भाषा, संरचना और पाठक का ध्यान रखा जाता है। सूचना संक्षिप्त होती है, भाषण में संबोधन और विचार होते हैं।",example:"विद्यालय की प्रतियोगिता की सूचना में तारीख, समय, स्थान और विषय स्पष्ट लिखें।",q:"सूचना की भाषा कैसी होनी चाहिए?",options:["लंबी और अस्पष्ट","संक्षिप्त और स्पष्ट","केवल भावुक","बिना जानकारी वाली"],answer:1,why:"सूचना संक्षिप्त, स्पष्ट और तथ्यात्मक होनी चाहिए।"},
-{title:"सार लेखन",intro:"शिक्षक: सार में मूल भाव बचता है और अनावश्यक विस्तार हट जाता है।",concept:"सार लेखन में मूल अनुच्छेद के मुख्य विचारों को अपने शब्दों में संक्षेप में लिखा जाता है।",example:"लंबे अनुच्छेद के मुख्य विचार 3–4 वाक्यों में लिखना सार लेखन का अभ्यास है।",q:"सार लेखन में किसे प्राथमिकता दी जाती है?",options:["मुख्य विचार","हर उदाहरण","दोहराव","नई कहानी"],answer:0,why:"सार में मुख्य विचार रखे जाते हैं।"}
-]},
+
 {
-name:"Physical Education",icon:"🏃",teacher:"🏅",teacherName:"Coach Ren",
+title:"Writing and City Life",
+topic:"Early cities and Mesopotamia",
+
+concept:"Early cities developed when agriculture produced a surplus. Specialised work, trade, administration and record-keeping helped cities grow. Mesopotamia is an important example.",
+
+example:"When farmers produced more food than their families needed, some people could become craft workers, traders or administrators.",
+
+exam:"In competency answers, connect agricultural surplus with occupational specialisation and urban growth.",
+
+question:"A major factor that supported the growth of early cities was:",
+
+options:[
+"No agriculture",
+"Agricultural surplus and specialised work",
+"No trade",
+"Complete absence of administration"
+],
+
+answer:1,
+
+why:"Surplus food supported people doing non-farming occupations and helped cities develop."
+},
+
+{
+title:"An Empire Across Three Continents",
+topic:"The Roman Empire",
+
+concept:"The Roman Empire connected territories across Europe, North Africa and western Asia. Its strength depended on administration, armies, taxation, trade and communication.",
+
+example:"A merchant could move goods across regions connected by Roman roads and sea routes, although travel still involved risks and costs.",
+
+exam:"Avoid describing an empire only through its rulers. Include administration, economy, society and connections.",
+
+question:"Which factor helped connect different parts of the Roman Empire?",
+
+options:[
+"Roads and sea routes",
+"No communication",
+"Closed markets everywhere",
+"Absence of an army"
+],
+
+answer:0,
+
+why:"Roads and sea routes helped movement, trade and communication."
+},
+
+{
+title:"Nomadic Empires",
+topic:"Pastoral nomads and power",
+
+concept:"Nomadic groups moved with their herds in search of pasture. Some built powerful empires through mobility, military organisation, alliances and political leadership.",
+
+example:"Seasonal movement helped pastoral communities use grasslands in different places instead of exhausting one area.",
+
+exam:"Explain both nomadic life and the political or military organisation that enabled empire-building.",
+
+question:"Pastoral nomads traditionally moved mainly to:",
+
+options:[
+"Search for pasture and water",
+"Avoid all animals",
+"Build factories",
+"Stop trade"
+],
+
+answer:0,
+
+why:"Movement helped pastoral communities find grazing land and water."
+}
+
+]
+},
+
+{
+id:"pol",
+name:"Political Science",
+icon:"⚖️",
+teacher:"Mika",
+role:"Civics mentor",
+
 lessons:[
-{title:"Changing Trends in Sports",intro:"Coach: Sports develop when knowledge, technology and training improve.",concept:"Modern sports use scientific training, performance analysis, improved equipment, sports medicine and better facilities.",example:"Video analysis helps a coach review an athlete's technique.",q:"Video analysis in sports is mainly used to:",options:["Review performance","Replace all practice","Guarantee victory","Remove rules"],answer:0,why:"Video analysis helps review technique and performance."},
-{title:"Physical Fitness",intro:"Coach: Fitness is a combination of several abilities.",concept:"Health-related fitness includes cardiorespiratory endurance, muscular strength, muscular endurance, flexibility and body composition. Skill-related fitness includes agility, balance, coordination, power, reaction time and speed.",example:"A basketball player uses agility to change direction and coordination to control the ball.",q:"The ability to change direction quickly is:",options:["Flexibility","Agility","Body composition","Muscular endurance"],answer:1,why:"Agility is the ability to change direction efficiently."}
-]}
+
+{
+title:"Constitution: Why and How?",
+topic:"Purpose of a Constitution",
+
+concept:"A Constitution is a set of fundamental rules and principles that explains how a country is governed, distributes powers and protects citizens' rights. It also limits government power.",
+
+example:"If a government tries to restrict a fundamental right unlawfully, constitutional principles and courts provide a way to challenge that action.",
+
+exam:"Use keywords: rules, institutions, distribution of power, rights and limits on government.",
+
+question:"One important purpose of a Constitution is to:",
+
+options:[
+"Give unlimited power to rulers",
+"Set basic rules and limit government power",
+"Remove all citizens' rights",
+"Replace every law with customs"
+],
+
+answer:1,
+
+why:"A Constitution establishes governing rules and limits the exercise of power."
+},
+
+{
+title:"Rights in the Indian Constitution",
+topic:"Fundamental Rights",
+
+concept:"Fundamental Rights protect important freedoms and equality. They place obligations on the state and allow people to seek legal remedies when these rights are violated.",
+
+example:"The Right to Equality supports the principle that the state should not discriminate on prohibited grounds.",
+
+exam:"For a case-based question, identify the right involved, explain the principle and apply it to the facts.",
+
+question:"Fundamental Rights are important because they:",
+
+options:[
+"Protect basic freedoms and equality",
+"Apply only to ministers",
+"Remove the need for courts",
+"Can never be enforced"
+],
+
+answer:0,
+
+why:"They protect individuals and provide constitutional safeguards."
+},
+
+{
+title:"Election and Representation",
+topic:"Democratic representation",
+
+concept:"Elections allow citizens to choose representatives. Free and fair elections support accountability, political participation and peaceful changes of government.",
+
+example:"Voters compare candidates and parties, then choose who will represent their constituency.",
+
+exam:"A strong answer explains the link between elections, public choice and accountability.",
+
+question:"A key democratic purpose of elections is to:",
+
+options:[
+"Make rulers permanent",
+"Allow citizens to choose representatives",
+"End public participation",
+"Remove accountability"
+],
+
+answer:1,
+
+why:"Elections let citizens select and hold representatives accountable."
+}
+
+]
+},
+
+{
+id:"eng",
+name:"English",
+icon:"✍️",
+teacher:"Yuna",
+role:"Language mentor",
+
+lessons:[
+
+{
+title:"Reading Comprehension",
+topic:"Understand before answering",
+
+concept:"Read the passage once for the main idea, then again to locate evidence. Answer in your own words unless the question asks for a direct phrase.",
+
+example:"For a question asking why a character changed their mind, find the event or reason in the passage rather than guessing from the title.",
+
+exam:"For inference questions, support your answer with clues from the passage. Keep answers precise.",
+
+question:"The best way to answer an inference question is to:",
+
+options:[
+"Guess without reading",
+"Use clues and evidence from the passage",
+"Copy an unrelated line",
+"Write the longest answer possible"
+],
+
+answer:1,
+
+why:"An inference must be supported by clues in the text."
+},
+
+{
+title:"Notice Writing",
+topic:"Formal and concise communication",
+
+concept:"A notice gives essential information about an event or announcement. It usually includes the organisation name, NOTICE, date, heading, details, issuing authority and designation.",
+
+example:"A school notice about a debate competition should mention who can participate, date, time, venue and whom to contact.",
+
+exam:"Keep the format neat and information brief. Follow the word limit and your teacher's prescribed format.",
+
+question:"Which detail is essential in a notice about a school event?",
+
+options:[
+"Unrelated personal story",
+"Date, time and venue",
+"A long poem",
+"Private family details"
+],
+
+answer:1,
+
+why:"Readers need the practical event details."
+}
+
+]
+},
+
+{
+id:"hin",
+name:"Hindi",
+icon:"📚",
+teacher:"Haru",
+role:"Hindi mentor",
+
+lessons:[
+
+{
+title:"अपठित गद्यांश",
+topic:"गद्यांश को समझकर उत्तर देना",
+
+concept:"अपठित गद्यांश में पहले पूरे अनुच्छेद का मुख्य भाव समझिए। फिर प्रश्न के अनुसार उत्तर खोजिए और अपने शब्दों में स्पष्ट, संक्षिप्त उत्तर लिखिए।",
+
+example:"यदि प्रश्न लेखक के विचार पूछता है, तो केवल एक शब्द न लिखें। गद्यांश से प्रमाण लेकर पूरा वाक्य बनाइए।",
+
+exam:"उत्तर गद्यांश पर आधारित रखें। अपनी ओर से ऐसी जानकारी न जोड़ें जो अनुच्छेद में नहीं दी गई है।",
+
+question:"अपठित गद्यांश का उत्तर लिखते समय सबसे ज़रूरी क्या है?",
+
+options:[
+"बिना पढ़े अनुमान लगाना",
+"गद्यांश को समझकर प्रमाण सहित उत्तर देना",
+"विषय से बाहर लिखना",
+"केवल शीर्षक लिखना"
+],
+
+answer:1,
+
+why:"उत्तर गद्यांश की जानकारी और उसके भाव पर आधारित होना चाहिए।"
+},
+
+{
+title:"लेखन कौशल: भाषण",
+topic:"प्रभावशाली भाषण",
+
+concept:"भाषण में संबोधन, विषय का परिचय, मुख्य विचार, उदाहरण और प्रभावशाली निष्कर्ष होना चाहिए। भाषा सरल, स्पष्ट और श्रोताओं के अनुकूल रखें।",
+
+example:"स्वच्छता पर भाषण में समस्या, उसके प्रभाव और विद्यार्थियों द्वारा किए जा सकने वाले उपाय बताइए।",
+
+exam:"विषय से न भटकें। अनुच्छेदों का क्रम तार्किक रखें और निर्धारित शब्द-सीमा का ध्यान रखें।",
+
+question:"एक अच्छे भाषण का निष्कर्ष कैसा होना चाहिए?",
+
+options:[
+"विषय से असंबंधित",
+"मुख्य संदेश को प्रभावी ढंग से समेटने वाला",
+"केवल अभिवादन",
+"बिना किसी विचार के"
+],
+
+answer:1,
+
+why:"निष्कर्ष भाषण के मुख्य संदेश को यादगार ढंग से समेटता है।"
+}
+
+]
+},
+
+{
+id:"pe",
+name:"Physical Education",
+icon:"🏃",
+teacher:"Kaito",
+role:"PE mentor",
+
+lessons:[
+
+{
+title:"Changing Trends in Physical Education",
+topic:"Meaning and importance",
+
+concept:"Physical Education develops physical fitness, movement skills, knowledge, teamwork and healthy habits. Modern physical education also uses technology and inclusive approaches.",
+
+example:"A fitness tracker may help a student observe activity, but safe training, rest and correct technique remain important.",
+
+exam:"Distinguish physical education from only playing games. Mention physical, mental and social development.",
+
+question:"Physical Education aims at:",
+
+options:[
+"Only winning medals",
+"Holistic development through physical activity",
+"Avoiding teamwork",
+"Replacing all academic subjects"
+],
+
+answer:1,
+
+why:"It supports physical, mental and social development."
+},
+
+{
+title:"Olympic Value Education",
+topic:"Excellence, friendship and respect",
+
+concept:"Olympic values include excellence, friendship and respect. They encourage effort, fair play, cooperation and respect for opponents.",
+
+example:"Congratulating an opponent after a fair match demonstrates respect, even when your team loses.",
+
+exam:"Use a practical example to explain each value instead of merely listing the words.",
+
+question:"Fair play is most closely connected with:",
+
+options:[
+"Respect and honesty",
+"Cheating to win",
+"Disrespecting opponents",
+"Ignoring rules"
+],
+
+answer:0,
+
+why:"Fair play requires respect for rules, opponents and honest competition."
+}
+
+]
+}
+
 ];
 
-let current=0,chapter=0,xp=Number(localStorage.getItem("animeXP")||0);
-let answered=false,lessonDone=false,quizDone=false;
-let completed=JSON.parse(localStorage.getItem("animeDone")||"{}");
-let audio=null;
-
-function updateStats(){
- document.getElementById("xp").textContent=xp;
- document.getElementById("level").textContent=Math.floor(xp/100)+1;
- document.getElementById("bar").style.width=(xp%100)+"%";
- document.getElementById("progressText").textContent=(100-xp%100)+" XP to next level";
- document.getElementById("mission1").textContent=lessonDone?"1/1":"0/1";
- document.getElementById("mission2").textContent=quizDone?"1/1":"0/1";
- document.getElementById("mission3").textContent=Math.min(xp,30)+"/30";
- localStorage.setItem("animeXP",xp);
- localStorage.setItem("animeDone",JSON.stringify(completed));
-}
-
-function drawSubjects(){
- const box=document.getElementById("subjects");
- box.innerHTML="";
- subjects.forEach((s,i)=>{
-  let b=document.createElement("button");
-  b.className="subject"+(i===current?" active":"");
-  b.textContent=s.icon+" "+s.name;
-  b.onclick=()=>{current=i;chapter=0;drawSubjects();renderLesson()};
-  box.appendChild(b);
- });
-}
-
-function renderLesson(){
- let s=subjects[current],l=s.lessons[chapter];
- answered=false;
- lessonDone=false;
- document.getElementById("teacher").textContent=s.teacher;
- document.getElementById("teacherName").textContent=s.teacherName;
- document.getElementById("chapter").textContent=l.title;
- document.getElementById("intro").textContent=l.intro;
- document.getElementById("concept").textContent="🧠 "+l.concept;
- document.getElementById("example").textContent="💡 "+l.example;
- document.getElementById("question").textContent=l.q;
- document.getElementById("feedback").textContent="";
- document.getElementById("next").hidden=true;
-
- const box=document.getElementById("answers");
- box.innerHTML="";
- l.options.forEach((option,i)=>{
-  let b=document.createElement("button");
-  b.textContent=String.fromCharCode(65+i)+". "+option;
-  b.onclick=()=>answer(i);
-  box.appendChild(b);
- });
- updateStats();
-}
-
-function answer(choice){
- if(answered)return;
- answered=true;
- let l=subjects[current].lessons[chapter];
- let buttons=document.querySelectorAll(".answers button");
- buttons.forEach((b,i)=>{
-  b.disabled=true;
-  if(i===l.answer)b.classList.add("correct");
-  if(i===choice&&i!==l.answer)b.classList.add("wrong");
- });
- if(choice===l.answer){
-  xp+=20;
-  quizDone=true;
-  document.getElementById("feedback").textContent="✨ Correct! +20 XP. "+l.why;
- }else{
-  document.getElementById("feedback").textContent="Not quite. "+l.why;
- }
- let key=current+"-"+chapter;
- if(!completed[key]){
-  completed[key]=true;
-  xp+=10;
-  lessonDone=true;
-  document.getElementById("feedback").textContent+=" Lesson completed! +10 XP.";
- }
- document.getElementById("next").hidden=false;
- updateStats();
-}
-
-function nextLesson(){
- chapter=(chapter+1)%subjects[current].lessons.length;
- renderLesson();
-}
-
-function toggleMusic(){
- try{
-  if(!audio){
-   audio=new(window.AudioContext||window.webkitAudioContext)();
-   let oscillator=audio.createOscillator();
-   let gain=audio.createGain();
-   oscillator.type="sine";
-   oscillator.frequency.value=220;
-   gain.gain.value=.018;
-   oscillator.connect(gain);
-   gain.connect(audio.destination);
-   oscillator.start();
-   document.getElementById("music").textContent="♫ Music ON";
-   audio.osc=oscillator;
-  }else if(audio.state==="running"){
-   audio.suspend();
-   document.getElementById("music").textContent="♫ Music OFF";
-  }else{
-   audio.resume();
-   document.getElementById("music").textContent="♫ Music ON";
-  }
- }catch(e){
-  document.getElementById("music").textContent="Music unavailable";
- }
-}
-
-drawSubjects();
-renderLesson();
-updateStats();
 </script>
-</body>
-   </html>
-  
+
+let state = JSON.parse(localStorage.getItem("animeAcademySave") || '{"xp":0,"completed":[],"mistakes":[],"selected":"eco","lesson":0}');
+let currentQuestionAnswered = false;
+
+const $ = id => document.getElementById(id);
+
+function save() {
+  localStorage.setItem("animeAcademySave", JSON.stringify(state));
+  renderStats();
+}
+
+function currentCourse() {
+  return courses.find(c => c.id === state.selected) || courses[0];
+}
+
+function currentLesson() {
+  return currentCourse().lessons[state.lesson] || currentCourse().lessons[0];
+}
+
+function renderStats() {
+  let total = courses.reduce((n,c) => n + c.lessons.length, 0);
+  $("xp").textContent = state.xp;
+  $("level").textContent = Math.floor(state.xp / 100) + 1;
+  $("completed").textContent = state.completed.length;
+  $("progressBar").style.width = (state.completed.length / total * 100) + "%";
+  $("progressText").textContent = Math.round(state.completed.length / total * 100) + "% academy completed";
+}
+
+function renderSubjects() {
+  $("subjects").innerHTML = courses.map(c =>
+    `<button class="subject ${c.id === state.selected ? "active" : ""}" onclick="chooseSubject('${c.id}')">
+      <b>${c.icon} ${c.name}</b>
+      <small>${c.lessons.length} starter lessons</small>
+    </button>`
+  ).join("");
+}
+
+function renderLessons() {
+  let c = currentCourse();
+  $("lessons").innerHTML = c.lessons.map((l,i) =>
+    `<button class="lesson-btn ${i === state.lesson ? "active" : ""}" onclick="chooseLesson(${i})">
+      <span>${i+1}. ${l.title}</span>
+      <span class="${state.completed.includes(c.id+"-"+i) ? "done" : ""}">
+        ${state.completed.includes(c.id+"-"+i) ? "✓" : "›"}
+      </span>
+    </button>`
+  ).join("");
+}
+
+function renderLesson() {
+  let c = currentCourse();
+  let l = currentLesson();
+  let key = c.id + "-" + state.lesson;
+  let done = state.completed.includes(key);
+  currentQuestionAnswered = false;
+
+  $("lessonContent").innerHTML = `
+    <div class="teacher">
+      <div class="avatar">🎓</div>
+      <div>
+        <b>${c.teacher} • ${c.name} teacher</b>
+        <p>${c.role} | Lesson ${state.lesson+1} of ${c.lessons.length}</p>
+      </div>
+    </div>
+
+    <span class="badge">CLASS 11 • STARTER MODULE</span>
+    <h2 style="margin-top:10px">${l.title}</h2>
+    <p class="muted">${l.topic}</p>
+
+    <div class="section">
+      <h3>🧩 Concept explained</h3>
+      <p>${l.concept}</p>
+    </div>
+
+    <div class="section example">
+      <h3>🌍 Real-life example</h3>
+      <p>${l.example}</p>
+    </div>
+
+    <div class="section exam">
+      <h3>📝 Exam strategy</h3>
+      <p>${l.exam}</p>
+    </div>
+
+    <div class="quiz">
+      <h3>⚔️ Competency Check</h3>
+      <p>${l.question}</p>
+      <div id="options">
+        ${l.options.map((o,i) =>
+          `<button class="option" onclick="answer(${i})">${String.fromCharCode(65+i)}. ${o}</button>`
+        ).join("")}
+      </div>
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn" onclick="completeLesson()" ${done ? "disabled" : ""}>
+        ${done ? "✓ Lesson completed" : "Complete lesson +20 XP"}
+      </button>
+      <button class="btn secondary" onclick="nextLesson()">Next lesson →</button>
+    </div>
+
+    <p class="muted small" style="margin-top:14px">
+      Tip: Explain the concept aloud in your own words before moving on.
+    </p>
+  `;
+}
+
+function chooseSubject(id) {
+  state.selected = id;
+  state.lesson = 0;
+  save();
+  renderAll();
+}
+
+function chooseLesson(i) {
+  state.lesson = i;
+  renderAll();
+}
+
+function answer(i) {
+  if (currentQuestionAnswered) return;
+
+  let l = currentLesson();
+  let buttons = [...document.querySelectorAll(".option")];
+  let correct = i === l.answer;
+  currentQuestionAnswered = true;
+
+  buttons.forEach((b,n) => {
+    b.disabled = true;
+    if (n === l.answer) b.classList.add("correct");
+    if (n === i && !correct) b.classList.add("wrong");
+  });
+
+  $("feedback").innerHTML = correct
+    ? "<span style='color:var(--green)'>Correct! +10 XP. " + l.why + "</span>"
+    : "<span style='color:var(--red)'>Not quite. " + l.why + "</span>";
+
+  if (correct) {
+    state.xp += 10;
+  } else {
+    state.mistakes.unshift({
+      subject: currentCourse().name,
+      lesson: l.title,
+      q: l.question,
+      answer: l.options[l.answer],
+      why: l.why
+    });
+    state.mistakes = state.mistakes.slice(0,40);
+  }
+
+  save();
+  renderMissions();
+  renderMistakes();
+}
+
+function completeLesson() {
+  let key = state.selected + "-" + state.lesson;
+
+  if (!state.completed.includes(key)) {
+    state.completed.push(key);
+    state.xp += 20;
+    save();
+    renderAll();
+  }
+}
+
+function nextLesson() {
+  let c = currentCourse();
+  state.lesson = (state.lesson + 1) % c.lessons.length;
+  renderAll();
+}
+
+function renderMissions() {
+  let total = courses.reduce((n,c) => n + c.lessons.length, 0);
+
+  let tasks = [
+    {name:"First Steps",desc:"Complete any 1 lesson",ok:state.completed.length>=1,reward:"20 XP"},
+    {name:"Quiz Rookie",desc:"Earn XP by attempting a quiz",ok:state.xp>=10,reward:"10 XP"},
+    {name:"Dedicated Scholar",desc:"Complete 5 lessons",ok:state.completed.length>=5,reward:"50 XP"},
+    {name:"Academy Champion",desc:"Complete every starter lesson",ok:state.completed.length>=total,reward:"100 XP"}
+  ];
+
+  $("missionList").innerHTML = tasks.map(t =>
+    `<div class="mission">
+      <div>
+        <b>${t.ok ? "✅" : "🔒"} ${t.name}</b>
+        <div class="muted small">${t.desc}</div>
+      </div>
+      <span class="badge">${t.ok ? "CLEARED" : t.reward}</span>
+    </div>`
+  ).join("");
+}
+
+function renderMistakes() {
+  $("mistakeList").innerHTML = state.mistakes.length
+    ? state.mistakes.map(m =>
+      `<div class="section">
+        <b>${m.subject} — ${m.lesson}</b>
+        <p style="margin:7px 0">${m.q}</p>
+        <p><b>Correct answer:</b> ${m.answer}</p>
+        <p class="muted small">${m.why}</p>
+      </div>`
+    ).join("")
+    : "<p class='muted'>No mistakes saved yet. Incorrect quiz answers will appear here for revision.</p>";
+}
+
+function showPage(page) {
+  ["learn","missions","mistakes","about"].forEach(p => {
+    $(p+"Page").hidden = p !== page;
+  });
+
+  document.querySelectorAll(".tab").forEach(t =>
+    t.classList.toggle("active", t.dataset.page === page)
+  );
+
+  if (page === "missions") renderMissions();
+  if (page === "mistakes") renderMistakes();
+}
+
+document.querySelectorAll(".tab").forEach(t =>
+  t.addEventListener("click", () => showPage(t.dataset.page))
+);
+
+function renderAll() {
+  renderStats();
+  renderSubjects();
+  renderLessons();
+  renderLesson();
+  renderMissions();
+  renderMistakes();
+}
+
+function resetProgress() {
+  if (confirm("Reset all XP, completed lessons and mistakes?")) {
+    state = {
+      xp:0,
+      completed:[],
+      mistakes:[],
+      selected:"eco",
+      lesson:0
+    };
+    save();
+    renderAll();
+    showPage("learn");
+  }
+}
+
+renderAll();
